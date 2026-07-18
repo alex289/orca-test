@@ -1,25 +1,8 @@
 services:
-  probe:
-    image: alpine:3.22
-    command: ["sh", "-c", "while true; do sleep 3600; done"]
-    volumes:
-      - type: bind
-        source: ./relative-dir
-        target: /probe/relative-dir
-
-      - type: bind
-        source: ./relative-file.txt
-        target: /probe/relative-file.txt
-        read_only: true
-
-      - type: bind
-        source: .
-        target: /probe/project
-        read_only: true
-
-      - type: volume
-        source: cache
-        target: /probe/cache
-
-volumes:
-  cache:
+  app:
+    image: nginx:alpine
+    healthcheck:
+      test: ["CMD", "test", "-f", "/tmp/never"]
+      interval: 5s
+      timeout: 2s
+      retries: 3
