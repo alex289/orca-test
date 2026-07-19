@@ -1,8 +1,9 @@
 services:
   app:
     image: nginx:alpine
+    command: sh -c "(sleep 60 && touch /tmp/ready) & exec nginx -g 'daemon off;'"
     healthcheck:
-      test: ["CMD", "test", "-f", "/tmp/never"]
+      test: ["CMD", "test", "-f", "/tmp/ready"]
       interval: 5s
       timeout: 2s
-      retries: 3
+      retries: 30
